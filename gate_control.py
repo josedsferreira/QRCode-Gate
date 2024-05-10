@@ -4,7 +4,7 @@ def detect_and_decode_qr_codes(frame):
     
     qr_detector = cv2.QRCodeDetector()
 
-    # Analiiiiizar frame
+    # Analiizar frame
     resultado, decoded_info, points, straight_qrcode = qr_detector.detectAndDecodeMulti(frame)
     # Se resultado diferente de zero entao detetou qr code
     # decoded_info: lista de strings com a info descodificada dos possiveis varios qr codes detetados
