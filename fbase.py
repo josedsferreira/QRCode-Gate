@@ -4,25 +4,21 @@ import random
 import string
 import time
 
-# Initialize Firebase app (replace with your Firebase project credentials)
-cred = credentials.Certificate('path/to/serviceAccountKey.json')
+# Firebase
+cred = credentials.Certificate('qr-code-gate-firebase-adminsdk-ndxh2-efe8148abf.json')
 firebase_admin.initialize_app(cred, {
-    'databaseURL': 'https://your-project-id.firebaseio.com'
+    'databaseURL': 'https://qr-code-gate-default-rtdb.europe-west1.firebasedatabase.app/'
 })
 
-# Function to generate a random authorization code
 def generate_code(length=8):
     characters = string.ascii_letters + string.digits
     return ''.join(random.choice(characters) for _ in range(length))
 
-# Function to update authorization codes in Firebase
-def update_codes():
-    # Generate new authorization codes
-    new_codes = [generate_code() for _ in range(5)]  # Generate 5 new codes
-    
-    # Update authorization codes in Firebase
-    ref = db.reference('authorization_codes')
-    ref.set(new_codes)
+def update_code():
+    new_code = generate_code()
+    ref = db.reference('Gate Code/Code')
+    ref.set(new_code)
+    print("Updated Gate Code to:", new_code)
 
 # Function to check if the scanned QR code is authorized
 def is_authorized(scanned_code):
@@ -33,9 +29,10 @@ def is_authorized(scanned_code):
     else:
         return False
 
-
 """ if __name__ == "__main__":
     # Run a loop to periodically update authorization codes (e.g., every hour)
     while True:
         update_codes()
         time.sleep(3600)  # Wait for an hour before updating again """
+
+update_code()

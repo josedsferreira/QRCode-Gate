@@ -1,4 +1,5 @@
 import cv2
+import fbase
 
 def detect_and_decode_qr_codes(frame):
     
