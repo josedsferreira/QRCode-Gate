@@ -10,7 +10,7 @@ firebase_admin.initialize_app(cred, {
     'databaseURL': 'https://qr-code-gate-default-rtdb.europe-west1.firebasedatabase.app/'
 })
 
-def generate_code(length=8):
+def generate_code(length=20):
     characters = string.ascii_letters + string.digits
     return ''.join(random.choice(characters) for _ in range(length))
 
@@ -29,10 +29,4 @@ def is_authorized(scanned_code):
     else:
         return False
 
-""" if __name__ == "__main__":
-    # Run a loop to periodically update authorization codes (e.g., every hour)
-    while True:
-        update_codes()
-        time.sleep(3600)  # Wait for an hour before updating again """
 
-update_code()

@@ -1,15 +1,22 @@
 import cv2
 import fbase
+from time import time
+
+# Tempo para atualizar o codigo da gate
+code_time = 60 * 10  # 10 mins
+# Tempo de espera entre leitura de frames
+loop_wait = 0.1
+loop_wait_bool = False # Para desativar ou ativar a espera entre frames
 
 def detect_and_decode_qr_codes(frame):
     
     qr_detector = cv2.QRCodeDetector()
 
     # Analiizar frame
-    resultado, decoded_info, points, straight_qrcode = qr_detector.detectAndDecodeMulti(frame)
+    resultado, decoded_info, vertices, straight_qrcode = qr_detector.detectAndDecodeMulti(frame)
     # Se resultado diferente de zero entao detetou qr code
     # decoded_info: lista de strings com a info descodificada dos possiveis varios qr codes detetados
-    # points: lista de coordenadas dos vertices dos qr codes
+    # vertices: lista de coordenadas dos vertices dos qr codes
     # straight_qrcode: lista de numpy arrays que representam a imagem de um qr code
 
     # Printar info do qrcode e retornar
@@ -24,6 +31,8 @@ def main():
     # Começar captura de imaagem
     cap = cv2.VideoCapture(0)
 
+    # começar o temporizador
+    start_time = time()
     while True:
         # Capturar frame-by-frame
         resultado, frame = cap.read()
@@ -44,9 +53,19 @@ def main():
             for info in decoded_info:
                 process_qr_code_data(info)
 
+        # Atualizar o codigo a cada 10 mins
+        elapsed_time = time.time() - start_time
+        if elapsed_time > code_time:
+            fbase.update_code() # Atualizar codigo na base de dados
+            start_time = time.time() # Reset do temporizador
+
         # Sair do loop clicando no q
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
+
+        # Esperar entre frames se loop_wait_bool for True, para poupança de recursos
+        if loop_wait_bool:
+            time.sleep(loop_wait)
 
     # Fechar janelas e parar de capturar imagem
     cap.release()
