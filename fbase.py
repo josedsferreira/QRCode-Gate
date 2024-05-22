@@ -22,9 +22,10 @@ def update_code():
 
 # Function to check if the scanned QR code is authorized
 def is_authorized(scanned_code):
-    ref = db.reference('authorization_codes')
-    authorized_codes = ref.get()
-    if scanned_code in authorized_codes:
+    ref = db.reference('Gate Code/Code')
+    authorized_code = ref.get()
+    #print("Authorized Code:", authorized_code)
+    if scanned_code == authorized_code:
         return True
     else:
         return False
