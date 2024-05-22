@@ -1,20 +1,16 @@
-import cv2
-import fbase
-from time import time
-from time import sleep
 import RPi.GPIO as GPIO
+from time import sleep
 
 # duty cycle, calibrate if needed
-MIN_DUTY = 5
+MIN_DUTY = 3
 MAX_DUTY = 10
 
 servo_signal_pin = 13
 
 def deg_to_duty(deg):
     return (deg - 0) * (MAX_DUTY- MIN_DUTY) / 180 + MIN_DUTY
-    
 
-def openGate():
+if __name__ == "__main__":
     GPIO.setwarnings(False)
     GPIO.setmode(GPIO.BCM)
 
@@ -23,19 +19,16 @@ def openGate():
     servo = GPIO.PWM(servo_signal_pin, 50)
     print("Opening Gate")
     servo.start(0)
+    sleep(2)
+    servo.stop()
+    
 
-    # loop from 0 to 180
-    #for deg in range(181):
-    #    duty_cycle = deg_to_duty(deg)    
-    #    servo.ChangeDutyCycle(duty_cycle)
-
-    sleep(10)
+    sleep(5)
     print("Closing Gate")
-
-    # loop from 180 to 0
-    for deg in range(180, -1, -1):
-        duty_cycle = deg_to_duty(deg)    
-        servo.ChangeDutyCycle(duty_cycle)
+    servo.start(70)
+    sleep(2)
+    servo.stop()
+    
 
     # cleanup the gpio pins
-    #GPIO.cleanup()
+    GPIO.cleanup()
