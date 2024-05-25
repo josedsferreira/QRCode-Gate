@@ -87,7 +87,9 @@ def process_qr_code_data(data):
             return
         else: time_of_auth = time()
         print("Authorized")
-        threading.Thread(target=gate.openGate).start()
+        threading.Thread(target=gate.startGate).start()
+        #thread é para nao bloquear a camara
+        #senao quando acabar de mexer a cancela a camara ainda ta a ver o qr code nos frames
     else:
         print("Not Authorized")
     
