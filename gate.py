@@ -34,7 +34,7 @@ def startGate():
     closeGate()
 
     # cleanup gpio pins
-    GPIO.cleanup()
+    #GPIO.cleanup()
 
 def openGate(start_pos=min_position):
     # start_pos: posição da cancela quando iniciar movimento de abertura

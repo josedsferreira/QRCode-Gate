@@ -39,8 +39,6 @@ def main():
     # começar o temporizador
     start_time = time()
     while True:
-        
-
 
         # Capturar frame-by-frame
         resultado, frame = cap.read()
